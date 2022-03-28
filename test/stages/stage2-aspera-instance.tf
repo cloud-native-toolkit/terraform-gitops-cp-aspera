@@ -1,4 +1,4 @@
-module "es_instance" {
+module "aspera_instance" {
   source = "./module"
   #source = "C:\/Users\/JYOTIRANI//Desktop\terraform\ES_instance\terraform-gitops-cp-event-streams-instance"
 
