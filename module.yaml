@@ -1,13 +1,17 @@
-name: gitops-cp-aspera
+name: gitops-cp-aspera-operator
 type: gitops
-description: Module to populate a gitops repo with the resources to provision cp-aspera
+description: >-
+  Module to populate a gitops repo with the resources to provision
+  cp-aspera-operator
 tags:
   - tools
   - gitops
+  - IBM
+  - cloud pak
+  - cp4i
+  - aspera
 versions:
   - platforms:
-      - kubernetes
-      - ocp3
       - ocp4
     dependencies:
       - id: gitops
@@ -18,6 +22,18 @@ versions:
         refs:
           - source: github.com/cloud-native-toolkit/terraform-gitops-namespace.git
             version: '>= 1.0.0'
+      - id: catalogs
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-gitops-cp-catalogs.git
+            version: ">= 1.0.0"
+      - id: dep-manager
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-cp4i-dependency-management.git
+            version: ">= 1.0.0"
+      - id: aspera-operator
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-gitops-cp-aspera-operator.git
+            version: ">= 1.0.0"
     variables:
       - name: gitops_config
         moduleRef:
@@ -39,4 +55,12 @@ versions:
         moduleRef:
           id: gitops
           output: sealed_secrets_cert
+      - name: entitlement_key
+        moduleRef:
+          id: catalogs
+          output: entitlement_key
+      - name: license_use
+        moduleRef:
+          id: dep-manager
+          output: aspera.license_use
 softwareProvider: ibm-cp

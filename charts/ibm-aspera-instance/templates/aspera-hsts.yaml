@@ -1,0 +1,72 @@
+apiVersion: hsts.aspera.ibm.com/v1
+kind: IbmAsperaHsts
+metadata:
+  labels:
+    app.kubernetes.io/instance: ibm-aspera-hsts-prod
+    app.kubernetes.io/managed-by: ibm-aspera-hsts
+    app.kubernetes.io/name: ibm-aspera-hsts-prod
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  license:
+    accept: true
+    key: {{ .Values.key }}
+    use: {{ .Values.license_use }}
+  storages:
+    - claimName: {{ .Values.claim_name }}
+      class: {{ .Values.storageClass }}
+      deleteClaim: {{ .Values.deleteClaim }}
+      mountPath: {{ .Values.mountPath }}
+      size: {{ .Values.claim_size }}
+  {{- with .Values.containers}}
+  containers:
+    {{- with .ascp}}
+    ascp:
+      resources:
+        limits:
+          cpu: {{.resources.limits.cpu }}
+          memory: {{.resources.limits.memory }}
+        requests:
+          cpu: {{.resources.requests.cpu }}
+          memory: {{.resources.requests.memory }}
+    {{- end }}
+    {{- with .asperanoded}}
+    asperanoded:
+      resources:
+        limits:
+          cpu: {{.resources.limits.cpu  }}
+          memory: {{.resources.limits.memory }}
+        requests:
+          cpu: {{.resources.requests.cpu }}
+          memory: {{.resources.requests.memory }}
+    {{- end }}
+    {{- with .default}}
+    default:
+      resources:
+        limits:
+          cpu: {{.resources.limits.cpu  }}
+          memory: {{.resources.limits.memory  }}
+        requests:
+          cpu: {{.resources.requests.cpu }}
+          memory: {{.resources.requests.memory }}
+    {{- end }}
+  {{- end }}
+  redis:
+    persistence:
+      enabled: {{ .Values.redis_persistence_enabled }}
+      {{- if .Values.redis_persistence_enabled }}
+      storageClass: {{.Values.redis_storageClass }}
+      {{- end }}
+    {{- with .Values.redis_resources }}
+    resources:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+  deployments:
+    default:
+      replicas: {{ .Values.deployment_replicas }}
+  services:
+    httpProxy:
+      type: ClusterIP
+    tcpProxy:
+      type: LoadBalancer
+  version: {{ .Values.version }}

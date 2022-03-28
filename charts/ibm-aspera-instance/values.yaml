@@ -1,0 +1,47 @@
+# Default values for ibm-aspera-operator.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+name: aspera-hsts
+namespace: openshift-operators
+version: 4.0.0
+license_use: CloudPakForIntegrationNonProduction
+key: license_key
+redis_persistence_enabled: false
+redis_storageClass: ibmc-vpc-block-10iops-tier
+deployment_replicas: 1
+claim_name: hsts-transfer-pvc
+storageClass: ibmc-vpc-block-10iops-tier
+deleteClaim: true
+mountPath: /data/
+claim_size: 20Gi
+
+redis_resources:
+  requests:
+    cpu: 1000m
+    memory: 8Gi
+
+containers:
+  ascp:
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 2048Mi
+      requests:
+        cpu: 100m
+        memory: 512Mi
+  asperanoded:
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 1024Mi
+      requests:
+        cpu: 500m
+        memory: 512Mi
+  default:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 250Mi
