@@ -13,6 +13,6 @@ module "aspera_instance" {
   kubeseal_cert   = module.gitops.sealed_secrets_cert
   entitlement_key = module.cp_catalogs.entitlement_key
   license_use     = module.cp4i-dependencies.aspera.license_use
-  #version         = module.cp4i-dependencies.aspera.version
-  version = "4.0.0"
+  asperaversion   = module.cp4i-dependencies.aspera.version
+  #  version = "4.0.0"
 }

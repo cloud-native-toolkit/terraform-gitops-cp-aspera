@@ -12,7 +12,7 @@ locals {
   values_content = {
     name                      = var.service_name
     namespace                 = var.namespace
-    version                   = var.version
+    version                   = var.asperaversion
     license_use               = var.license_use
     key                       = var.license_key
     redis_persistence_enabled = var.redis_persistence_enabled

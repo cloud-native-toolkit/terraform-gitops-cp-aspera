@@ -98,7 +98,7 @@ variable "license_use" {
   default     = "CloudPakForIntegrationNonProduction"
 }
 
-variable "version" {
+variable "asperaversion" {
   type        = string
   description = "Version of Aspera to be installed"
   default     = "4.0.0"
