@@ -3,7 +3,7 @@ module "aspera_instance" {
   #source = "C:\/Users\/JYOTIRANI//Desktop\terraform\ES_instance\terraform-gitops-cp-event-streams-instance"
 
   depends_on = [
-    module.gitops-cp-aspera-operator
+    module.gitops-cp-aspera
   ]
 
   gitops_config   = module.gitops.gitops_config
