@@ -14,5 +14,6 @@ module "aspera_instance" {
   entitlement_key = module.cp_catalogs.entitlement_key
   license_use     = module.cp4i-dependencies.aspera.license_use
   asperaversion   = module.cp4i-dependencies.aspera.version
+  license_key     = var.license_key
   #  version = "4.0.0"
 }

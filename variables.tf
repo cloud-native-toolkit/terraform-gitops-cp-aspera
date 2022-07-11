@@ -89,7 +89,6 @@ variable "entitlement_key" {
 variable "license_key" {
   type        = string
   description = "License key for Aspera HSTS"
-  default     = "license_key"
 }
 
 variable "license_use" {
