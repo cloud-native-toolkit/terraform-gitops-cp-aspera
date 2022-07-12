@@ -10,7 +10,7 @@ on:
 jobs:
   verify:
     if: ${{ !contains( github.event.pull_request.labels.*.name, 'skip ci' ) }}
-    uses: cloud-native-toolkit/action-workflows/.github/workflows/verify-gitops-module.yaml@v1
+    uses: ./.github/workflows/verifyworkflow.yaml
     with:
       testcase: ocp4_latest_gitops_cp4i #ocp4_latest_gitops #azure_latest_gitops
     secrets:
@@ -22,7 +22,6 @@ jobs:
       GIT_ADMIN_TOKEN: ${{ secrets.GIT_ADMIN_TOKEN }}
       CP_ENTITLEMENT_KEY: ${{ secrets.CP_ENTITLEMENT_KEY }}
       ASPERA_LICENSE_KEY: ${{ secrets.ASPERA_LICENSE_KEY }}
-      TF_VAR_license_key: ${{ secrets.ASPERA_LICENSE_KEY }}
 
   verifyMetadata:
     uses: cloud-native-toolkit/action-workflows/.github/workflows/verify-module-metadata.yaml@v1
