@@ -89,7 +89,6 @@ variable "entitlement_key" {
 variable "license_key" {
   type        = string
   description = "License key for Aspera HSTS"
-  default     = "license_key"
 }
 
 variable "license_use" {
@@ -98,7 +97,7 @@ variable "license_use" {
   default     = "CloudPakForIntegrationNonProduction"
 }
 
-variable "version" {
+variable "asperaversion" {
   type        = string
   description = "Version of Aspera to be installed"
   default     = "4.0.0"
