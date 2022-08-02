@@ -129,7 +129,7 @@ variable "deleteClaim" {
 variable "storageClass" {
   type        = string
   description = "Stroage class for Aspera HSTS instance"
-  default     = "ibmc-vpc-block-10iops-tier"
+  default     = "portworx-rwx-gp3-sc"
 }
 
 variable "claim_name" {
@@ -147,7 +147,7 @@ variable "deployment_replicas" {
 variable "redis_storageClass" {
   type        = string
   description = "Storage class for redis"
-  default     = "ibmc-vpc-block-10iops-tier"
+  default     = "portworx-rwx-gp3-sc"
 }
 
 variable "redis_persistence_enabled" {
