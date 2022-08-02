@@ -10,8 +10,8 @@ locals {
   layer_config       = var.gitops_config[local.layer]
   values_file        = "values.yaml"
   values_content = {
-    name                      = var.service_name
-    namespace                 = var.namespace
+    name = var.service_name
+    #namespace                 = var.namespace
     version                   = var.asperaversion
     license_use               = var.license_use
     key                       = var.license_key

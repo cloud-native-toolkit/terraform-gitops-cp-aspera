@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: ibm-aspera-hsts
     app.kubernetes.io/name: ibm-aspera-hsts-prod
   name: {{ .Values.name }}
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace}}
 spec:
   license:
     accept: true
