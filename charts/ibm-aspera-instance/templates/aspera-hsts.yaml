@@ -10,7 +10,7 @@ metadata:
 spec:
   license:
     accept: true
-    key: {{ .Values.key }}
+    key: "{{ .Values.key }}"
     use: {{ .Values.license_use }}
   storages:
     - claimName: {{ .Values.claim_name }}
