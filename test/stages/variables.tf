@@ -76,3 +76,8 @@ variable "kubeseal_namespace" {
 
 variable "cp_entitlement_key" {
 }
+
+variable "license_key" {
+  type        = string
+  description = "License key for Aspera HSTS"
+}

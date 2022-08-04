@@ -89,7 +89,6 @@ variable "entitlement_key" {
 variable "license_key" {
   type        = string
   description = "License key for Aspera HSTS"
-  default     = "license_key"
 }
 
 variable "license_use" {
@@ -98,7 +97,7 @@ variable "license_use" {
   default     = "CloudPakForIntegrationNonProduction"
 }
 
-variable "version" {
+variable "asperaversion" {
   type        = string
   description = "Version of Aspera to be installed"
   default     = "4.0.0"
@@ -130,7 +129,7 @@ variable "deleteClaim" {
 variable "storageClass" {
   type        = string
   description = "Stroage class for Aspera HSTS instance"
-  default     = "ibmc-vpc-block-10iops-tier"
+  default     = "portworx-rwx-gp3-sc"
 }
 
 variable "claim_name" {
@@ -148,7 +147,7 @@ variable "deployment_replicas" {
 variable "redis_storageClass" {
   type        = string
   description = "Storage class for redis"
-  default     = "ibmc-vpc-block-10iops-tier"
+  default     = "portworx-rwx-gp3-sc"
 }
 
 variable "redis_persistence_enabled" {

@@ -51,7 +51,7 @@ else
 fi
 
 count=0
-CR="aspera/${COMPONENT_NAME}"
+CR="IbmAsperaHsts/${COMPONENT_NAME}"
 until kubectl get "${CR}" -n "${NAMESPACE}" || [[ $count -eq 20 ]]; do
   echo "Waiting for ${CR} in ${NAMESPACE}"
   count=$((count + 1))

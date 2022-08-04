@@ -1,8 +1,7 @@
-# Default values for ibm-aspera-operator.
+# Default values for ibm-aspera instance.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 name: aspera-hsts
-namespace: openshift-operators
 version: 4.0.0
 license_use: CloudPakForIntegrationNonProduction
 key: license_key

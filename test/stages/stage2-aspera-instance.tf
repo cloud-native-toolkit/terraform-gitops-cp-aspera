@@ -1,9 +1,9 @@
-module "es_instance" {
+module "aspera_instance" {
   source = "./module"
   #source = "C:\/Users\/JYOTIRANI//Desktop\terraform\ES_instance\terraform-gitops-cp-event-streams-instance"
 
   depends_on = [
-    module.gitops-cp-aspera-operator
+    module.gitops-cp-aspera
   ]
 
   gitops_config   = module.gitops.gitops_config
@@ -13,6 +13,8 @@ module "es_instance" {
   kubeseal_cert   = module.gitops.sealed_secrets_cert
   entitlement_key = module.cp_catalogs.entitlement_key
   license_use     = module.cp4i-dependencies.aspera.license_use
-  #version         = module.cp4i-dependencies.aspera.version
-  version = "4.0.0"
+  asperaversion   = module.cp4i-dependencies.aspera.version
+  #asperaversion = "4.4.0"
+  license_key = var.license_key
+  #  version = "4.0.0"
 }
