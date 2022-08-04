@@ -1,9 +1,256 @@
 name: gitops-cp-aspera
 type: gitops
-description: Module to populate a gitops repo with the resources to provision cp-aspera
+description: >-
+  Module to populate a gitops repo with the resources to provision Aspera HSTS
+  instance
 tags:
   - tools
   - gitops
-versions: []
+  - IBM
+  - cloud pak
+  - cp4i
+  - aspera
+versions:
+  - platforms:
+      - ocp4
+    dependencies:
+      - id: gitops
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-tools-gitops.git
+            version: '>= 1.1.0'
+      - id: namespace
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-gitops-namespace.git
+            version: '>= 1.0.0'
+      - id: catalogs
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-gitops-cp-catalogs.git
+            version: '>= 1.0.0'
+      - id: dep-manager
+        refs:
+          - source: >-
+              github.com/cloud-native-toolkit/terraform-cp4i-dependency-management.git
+            version: '>= 1.0.0'
+      - id: aspera-operator
+        refs:
+          - source: >-
+              github.com/cloud-native-toolkit/terraform-gitops-cp-aspera-operator.git
+            version: '>= 1.0.0'
+    variables:
+      - name: gitops_config
+        type: |-
+          object({
+              boostrap = object({
+                argocd-config = object({
+                  project = string
+                  repo    = string
+                  url     = string
+                  path    = string
+                })
+              })
+              infrastructure = object({
+                argocd-config = object({
+                  project = string
+                  repo    = string
+                  url     = string
+                  path    = string
+                })
+                payload = object({
+                  repo = string
+                  url  = string
+                  path = string
+                })
+              })
+              services = object({
+                argocd-config = object({
+                  project = string
+                  repo    = string
+                  url     = string
+                  path    = string
+                })
+                payload = object({
+                  repo = string
+                  url  = string
+                  path = string
+                })
+              })
+              applications = object({
+                argocd-config = object({
+                  project = string
+                  repo    = string
+                  url     = string
+                  path    = string
+                })
+                payload = object({
+                  repo = string
+                  url  = string
+                  path = string
+                })
+              })
+            })
+        description: Config information regarding the gitops repo structure
+        moduleRef:
+          id: gitops
+          output: gitops_config
+      - name: git_credentials
+        type: |-
+          list(object({
+              repo     = string
+              url      = string
+              username = string
+              token    = string
+            }))
+        description: The credentials for the gitops repo(s)
+        sensitive: true
+        moduleRef:
+          id: gitops
+          output: git_credentials
+      - name: namespace
+        type: string
+        description: The namespace where the application should be deployed
+        moduleRef:
+          id: namespace
+          output: name
+      - name: kubeseal_cert
+        type: string
+        description: The certificate/public key used to encrypt the sealed secrets
+        default: ''
+        moduleRef:
+          id: gitops
+          output: sealed_secrets_cert
+      - name: server_name
+        type: string
+        description: The name of the server
+        default: default
+        moduleRef:
+          id: gitops
+          output: server_name
+      - name: entitlement_key
+        type: string
+        description: The entitlement key required to access Cloud Pak images
+        sensitive: true
+        moduleRef:
+          id: catalogs
+          output: entitlement_key
+      - name: license_key
+        type: string
+        description: License key for Aspera HSTS
+      - name: license_use
+        type: string
+        description: Usage for Production or Non-Production
+        default: CloudPakForIntegrationNonProduction
+        moduleRef:
+          id: dep-manager
+          output: aspera.license_use
+      - name: asperaversion
+        type: string
+        description: Version of Aspera to be installed
+        default: 4.0.0
+      - name: service_name
+        type: string
+        description: Aspera HSTS instance name
+        default: ibm-aspera
+      - name: claim_size
+        type: string
+        description: Size of the persistent volume claim
+        default: 20Gi
+      - name: mountPath
+        type: string
+        description: Storage mount path
+        default: /data/
+      - name: deleteClaim
+        type: bool
+        description: Delete persistent volume claim
+        default: true
+      - name: storageClass
+        type: string
+        description: Stroage class for Aspera HSTS instance
+        default: portworx-rwx-gp3-sc
+      - name: claim_name
+        type: string
+        description: Persistent volume claim name to be used
+        default: hsts-transfer-pvc
+      - name: deployment_replicas
+        type: number
+        description: Number of deployment replicas for Aspera
+        default: '1'
+      - name: redis_storageClass
+        type: string
+        description: Storage class for redis
+        default: portworx-rwx-gp3-sc
+      - name: redis_persistence_enabled
+        type: bool
+        description: Persistence is enabled or disabled for redis db
+        default: false
+      - name: redis_cpu_requests
+        type: string
+        description: CPU request for redis
+        default: 1000m
+      - name: redis_memory_requests
+        type: string
+        description: Memory request for redis
+        default: 8Gi
+      - name: ascp_cpu_requests
+        type: string
+        description: CPU request for ascp
+        default: 100m
+      - name: ascp_memory_requests
+        type: string
+        description: Memory request for ascp
+        default: 512Mi
+      - name: ascp_cpu_limits
+        type: string
+        description: CPU request for ascp
+        default: 1000m
+      - name: ascp_memory_limits
+        type: string
+        description: Memory request for ascp
+        default: 2048Mi
+      - name: asperanoded_cpu_requests
+        type: string
+        description: CPU request for asperanoded
+        default: 500m
+      - name: asperanoded_memory_requests
+        type: string
+        description: Memory request for asperanoded
+        default: 512Mi
+      - name: asperanoded_cpu_limits
+        type: string
+        description: CPU request for asperanoded
+        default: 2000m
+      - name: asperanoded_memory_limits
+        type: string
+        description: Memory request for asperanoded
+        default: 1024Mi
+      - name: default_cpu_requests
+        type: string
+        description: 'Default CPU request '
+        default: 100m
+      - name: default_memory_requests
+        type: string
+        description: Default Memory request
+        default: 250Mi
+      - name: default_cpu_limits
+        type: string
+        description: Default CPU request
+        default: 500m
+      - name: default_memory_limits
+        type: string
+        description: 'Default Memory request '
+        default: 512Mi
+    version: v0.0.1
+    outputs:
+      - name: name
+        description: The name of the module
+      - name: branch
+        description: The branch where the module config has been placed
+      - name: namespace
+        description: The namespace where the module will be deployed
+      - name: server_name
+        description: The server where the module will be deployed
+      - name: layer
+        description: The layer where the module is deployed
+      - name: type
+        description: The type of module where the module is deployed
 softwareProvider: ibm-cp
 id: github.com/cloud-native-toolkit/terraform-gitops-cp-aspera
